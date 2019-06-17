@@ -2,7 +2,7 @@
 * Created by GoLand
 * User: dollarkiller
 * Date: 19-6-17
-* Time: 上午11:18
+* Time: 下午8:59
 * */
 package config
 
@@ -12,8 +12,8 @@ import (
 )
 
 type Conf struct {
-	Host string `json:"host"`
-	Debug bool `json:"debug"`
+	Host     string `json:"host"`
+	Debug    bool   `json:"debug"`
 	MySQLDsn string `json:"mysql_dsn"`
 }
 
@@ -27,8 +27,10 @@ func init() {
 	if e != nil {
 		panic(e.Error())
 	}
-	Config = &Conf{}
+
 	decoder := json.NewDecoder(file)
+
+	Config = &Conf{}
 	e = decoder.Decode(Config)
 	if e != nil {
 		panic(e.Error())
