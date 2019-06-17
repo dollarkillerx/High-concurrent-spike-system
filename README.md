@@ -8,3 +8,13 @@ High concurrent spike system基于Go的高并发实践
     - 在大并发状态下要解决超卖问题
     - 后端接口需要满足横向扩展
 ![](./README/sj.png)
+
+``` 
+.
+├── datamodels  // 数据模型
+├── repositories // dao层
+├── services // 服务层
+└── web 
+    ├── controllers
+    └── views
+```
