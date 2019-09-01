@@ -1,36 +1,55 @@
-/**
-* Created by GoLand
-* User: dollarkiller
-* Date: 19-6-17
-* Time: 上午11:18
-* */
 package config
 
 import (
-	"encoding/json"
-	"os"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
+	"log"
+	"time"
 )
 
-type Conf struct {
-	Host string `json:"host"`
-	Debug bool `json:"debug"`
-	MySQLDsn string `json:"mysql_dsn"`
+type myconf struct {
+	App struct {
+		Host       string `yaml:"host"`
+		Debug      bool   `yaml:"debug"`
+		MaxRequest int    `yaml:"max_request"`
+		LogLevel   string `yaml:"log_level"`
+	}
+	Mysql struct {
+		Dsn   string `yaml:"dsn"`
+		Cache bool   `yaml:"cache"`
+	}
+	Pgsql struct{
+		Dsn   string `yaml:"dsn"`
+		MaxIdle int `yaml:"max_idle"`
+		MaxOpen int `yaml:"max_open"`
+		TimeOut time.Duration `yaml:"time_out"`
+	}
+	Redis struct {
+		Maxidle     int           `yaml:"maxidle"`
+		MaxActive   int           `yaml:"max_active"`
+		IdleTimeout time.Duration `yaml:"idle_timeout"`
+		Port        string        `yaml:"port"`
+	}
 }
 
 var (
-	Config *Conf
+	MyConfig *myconf
 )
 
 func init() {
-	path := "./config.json"
-	file, e := os.Open(path)
+	MyConfig = &myconf{}
+
+	bytes, e := ioutil.ReadFile("./config.yml")
 	if e != nil {
 		panic(e.Error())
 	}
-	Config = &Conf{}
-	decoder := json.NewDecoder(file)
-	e = decoder.Decode(Config)
+
+	e = yaml.Unmarshal(bytes, MyConfig)
 	if e != nil {
 		panic(e.Error())
+	}
+
+	if MyConfig.App.Debug {
+		log.Println(MyConfig)
 	}
 }

@@ -1,5 +1,0 @@
-{
-  "host": ":8085",
-  "debug": true,
-  "mysql_dsn": "bf:wXaLLLeDx2kciz36@tcp(127.0.0.1:3306)/bf?charset=utf8"
-}
